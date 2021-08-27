@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - nuxt-vuetify',
+    titleTemplate: '%s - powered by @lindritkrasniqi',
     title: 'nuxt-vuetify',
     htmlAttrs: {
       lang: 'en'
@@ -25,6 +25,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/axios.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -38,6 +39,8 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
@@ -61,5 +64,48 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+
+  axios: {
+    proxy: false,
+    credentials: true,
+    baseURL: "http://localhost:8000/api",
+    cookie: { name: "XSRF-TOKEN" },
+    progress: false
+  },
+
+  auth: {
+    strategies: {
+      laravelSanctum: {
+        provider: "laravel/sanctum",
+        url: "http://localhost:8000",
+        token: {
+          property: "token",
+          required: true,
+          global: true,
+          name: "Authorization",
+          type: "Bearer"
+        },
+        user: {
+          property: "data",
+          required: true
+        },
+        endpoints: {
+          login: { url: "/api/login", method: "post" },
+          logout: { url: "/api/logout", method: "post" },
+          user: { url: "/api/me", method: "get" }
+        }
+      }
+    },
+    redirect: {
+      login: "/accounts/login",
+      logout: "/",
+      callback: "/accounts/login",
+      home: "/"
+    }
+  },
+
+  router: {
+    middleware: ["auth"]
   }
 }
