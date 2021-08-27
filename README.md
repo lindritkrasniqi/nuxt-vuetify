@@ -1,4 +1,10 @@
-# nuxt-vuetify
+# NuxtJS with Vuetify
+
+## About this repository
+
+This repository provides a simple authentication UI build on NuxtJS. You can fork this repository for your frontend application and olso if you are familiar with Laravel, you can even use backend repository on link below.
+
+- Laravel API's [repository](https://github.com/lindritkrasniqi/sanctum-auth).
 
 ## Build Setup
 
